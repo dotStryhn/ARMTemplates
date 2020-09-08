@@ -2,7 +2,7 @@
 
 Templates for Azure Resource Manager, these are the templates I use for my own little projects.
 
-# File Structure Example
+## File Structure Example
 
 Example file structure shows a *service* with the following example properties:
 
