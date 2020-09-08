@@ -3,6 +3,7 @@
 ## Required Parameters
 
 ### dnsZone
+The DNS Zone you want to create, ie.: yourdomain.com
 
 ## Parameterfile Example
 
@@ -12,7 +13,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "dnsZone": {
-            "value": "dotStryhn.dk"
+            "value": "yourdomain.com"
         }
     }
 }
