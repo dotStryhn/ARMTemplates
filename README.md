@@ -14,6 +14,7 @@ Example file structure shows a *service* with the following example properties:
 - Template Test File: `Test-ARMTemplate.Tests.ps1`
 
 ```bash
+ARMTemplates
 │   README.md
 │
 └───Microsoft.Network
