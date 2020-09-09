@@ -1,6 +1,8 @@
+# Gets the content of the JSON files for validation
 $templateContent = Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.json') -Raw -ErrorAction SilentlyContinue
 $parameterContent = Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.parameters.json') -Raw -ErrorAction SilentlyContinue
 
+# Get the Template Name and Version from the directory structure
 $armTemplateName = $($PSScriptRoot.split('\')[-2]) 
 $armTemplateVersion = $($PSScriptRoot.split('\')[-1])
 
@@ -11,7 +13,7 @@ Describe "ARM Template Validation" {
 		}
 
 		It "Parameter File Exists" {
-			Test-Path $(Join-Path $PSScriptRoot 'azuredeploy.json') -PathType Leaf | Should -Be $true
+			Test-Path $(Join-Path $PSScriptRoot 'azuredeploy.parameters.json') -PathType Leaf | Should -Be $true
 		}
 
 		It "Template File is valid JSON" {
