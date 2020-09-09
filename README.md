@@ -2,6 +2,9 @@
 
 Templates for Azure Resource Manager, these are the templates I use for my own little projects.
 
+* [File Structure Example](#file-structure-example)
+* [Required Files](#required-files)
+
 ## File Structure Example
 
 Example file structure shows a *service* with the following example properties:
@@ -43,4 +46,4 @@ A readme for the template, preferably with a template example.
 
 ### Test-ARMTemplates.Tests.ps1
 
-A pretty simple Pester test, found in the [.\ARMTemplates\xRequiredFiles](https://github.com/dotStryhn/ARMTemplates/tree/master/xRequiredFiles)
+A pretty simple Pester test, found in the [xRequiredFiles](./xRequiredFiles/)
