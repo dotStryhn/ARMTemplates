@@ -1,5 +1,9 @@
 # Microsoft.Network/dnsZones/v1.0
 
+* [Description](#description)
+* [Required Parameters](#required-parameters)
+* [Parameter File Example](#parameter-file-example)
+
 ## Description
 
 ARM Template for deploying a Public DNS Zone
@@ -9,7 +13,7 @@ ARM Template for deploying a Public DNS Zone
 ### dnsZone
 The DNS Zone you want to create, ie.: yourdomain.com
 
-## Parameterfile Example
+## Parameter File Example
 
 ```json
 {
