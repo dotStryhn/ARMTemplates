@@ -46,4 +46,4 @@ A readme for the template, preferably with a template example.
 
 #### Test-ARMTemplates.Tests.ps1
 
-A pretty simple Pester test, found in the [xRequiredFiles](./xRequiredFiles/)
+A pretty simple Pester test.
