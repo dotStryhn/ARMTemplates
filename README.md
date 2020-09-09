@@ -26,3 +26,21 @@ ARMTemplates
                 Test-ARMTemplates.Tests.ps1
 ```
 Tree generated using ```tree /f```
+
+## Required Files
+
+### azuredeploy.json
+
+The ARM Template itself
+
+### azuredeploy.parameters.json
+
+A parameter file with the required parameters, for testing purpuse, values have to be valid values, but not necessarily production specific.
+
+### README.md
+
+A readme for the template, preferably with a template example.
+
+### Test-ARMTemplates.Tests.ps1
+
+A pretty simple Pester test, found in the ```[ARMTemplates\xRequiredFiles\]: https://www.github.com/dotStryhn/ARMTemplates/TemplateFiles```
