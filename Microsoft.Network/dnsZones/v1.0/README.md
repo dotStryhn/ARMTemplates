@@ -1,4 +1,8 @@
-# Microsoft.Network/dnsZones
+# Microsoft.Network/dnsZones/v1.0
+
+## Description
+
+ARM Template for deploying a Public DNS Zone
 
 ## Required Parameters
 
