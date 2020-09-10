@@ -1,10 +1,4 @@
-# Get the Template Name and Version from the directory structure
-$armTemplateName = $($PSScriptRoot.split('\')[-2]) 
-$armTemplateVersion = $($PSScriptRoot.split('\')[-1])
-
-Describe "$armTemplateName $armTemplateVersion Tests" {
-
-	$testResourceGroup = 'zTemplateTest'
+Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests" {
 
 	Context "ARM Template" {
 
