@@ -1,0 +1,46 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dnsZone": {
+            "type": "string",
+            "metadata": {
+                "description": "Ie.: domain.com"
+            }
+        },
+        "aName": {
+            "type": "string",
+            "metadata": {
+                "description": "Ie.: www"
+            }
+        },
+        "aTTL": {
+            "defaultValue": 3600,
+            "type": "int",
+            "metadata": {
+                "description": "Time to Live, default 3600"
+            }
+        },
+        "aRecords": {
+            "type": "array",
+            "metadata": {
+                "description": "Array of ipv4Address"
+            }
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/dnsZones/A",
+            "apiVersion": "2018-05-01",
+            "name": "[concat(parameters('dnsZone'), '/', parameters('aName'))]",
+            "properties": {
+                "TTL": "[parameters('aTTL')]",
+                "ARecords": "[parameters('aRecords')]",
+                "targetResource": {}
+            }
+        }
+    ],
+    "outputs": {}
+}
