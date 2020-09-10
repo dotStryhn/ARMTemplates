@@ -14,7 +14,7 @@ ARM Template for deploying a CNAME Record for a DNS Zone
 ## Required Parameters
 
 #### dnsZone
-The DNS Zone you want to add the CNAME record to, ie.: yourdomain.com
+The DNS Zone, in which you want to create the CNAME Record
 
 #### cname
 The Name of the CNAME record
