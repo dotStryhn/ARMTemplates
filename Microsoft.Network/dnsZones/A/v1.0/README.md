@@ -4,6 +4,7 @@
 
 * [Description](#description)
 * [Required Parameters](#required-parameters)
+* [Additional Parameters](#additional-parameters)
 * [Parameter File Example](#parameter-file-example)
 
 
