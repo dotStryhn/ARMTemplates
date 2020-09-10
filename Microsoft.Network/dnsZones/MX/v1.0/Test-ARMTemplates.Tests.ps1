@@ -1,28 +1,19 @@
-# Variables
-$testResourceGroup = 'zTemplateTest'
-
-# Paths for the required files
-$templatePath = Join-Path $PSScriptRoot 'azuredeploy.json'
-$parameterPath = Join-Path $PSScriptRoot 'azuredeploy.parameters.json'
-$readmePath = Join-Path $PSScriptRoot 'README.md'
-
-# Gets the content of the required files
-$templateContent = Get-Content $templatePath -Raw -ErrorAction SilentlyContinue
-$parameterContent = Get-Content $parameterPath -Raw -ErrorAction SilentlyContinue
-$readmeContent = Get-Content $readmePath -Raw -ErrorAction SilentlyContinue
-
 # Get the Template Name and Version from the directory structure
 $armTemplateName = $($PSScriptRoot.split('\')[-2]) 
 $armTemplateVersion = $($PSScriptRoot.split('\')[-1])
 
-Describe "ARM Template Validation" {
-	Context "$armTemplateName $armTemplateVersion" {
-		It "ARM Template - File Exists" {
+Describe "$armTemplateName $armTemplateVersion Tests" {
+
+	$testResourceGroup = 'zTemplateTest'
+
+	Context "ARM Template" {
+
+		It "File Exists" {
 			# Tests for the ARM Template
-			$templatePath | Should -Exist
+			Join-Path $PSScriptRoot 'azuredeploy.json' | Should -Exist
 		}
 
-		It "ARM Template - Valid JSON meets Requirements" {
+		It "Valid JSON meets Requirements" {
 			# Tests for valid JSON which contains the required elements
 			$templateElementsRequired =	'$schema',
 										'contentVersion',
@@ -32,38 +23,47 @@ Describe "ARM Template Validation" {
 										'resources',
 										'variables'
 
-			$templateElements = $templateContent | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue | Get-Member -MemberType NoteProperty | ForEach-Object Name
+			$templateElements = $(Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue | Get-Member -MemberType NoteProperty | ForEach-Object Name
 			$templateElements | Should -Be $templateElementsRequired
 		}
+	}
 
-		It "Parameter File - File Exists" {
+	Context "Parameter File" {
+
+		It "File Exists" {
 			# Tests for the Parameter file
-			$parameterPath | Should -Exist
+			$(Join-Path $PSScriptRoot 'azuredeploy.parameters.json') | Should -Exist
 		}
 
-		It "Parameter File - Valid JSON meets Requirements" {
+		It "Valid JSON meets Requirements" {
 			# Tests for valid JSON which contains the required elements
 			$parameterElementsRequired =	'$schema',
 											'contentVersion',
 											'parameters'
 
-			$parameterElements = $parameterContent | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue | Get-Member -MemberType NoteProperty | ForEach-Object Name
+			$parameterElements = $(Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.parameters.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue | Get-Member -MemberType NoteProperty | ForEach-Object Name
 			$parameterElements | Should -Be $parameterElementsRequired
 		}
+	}
 
-		It "README.md - File Exists" {
+	Context "README.md" {
+
+		It "File Exists" {
 			# Tests for the README file
-			$readmePath | Should -Exist
+			$(Join-Path $PSScriptRoot 'README.md') | Should -Exist
 		}
 
-		It "README.md - NotNullorEmpty" {
+		It "NotNullorEmpty" {
 			# Tests for content in the README.md
-			$readmeContent | Should -Not -BeNullOrEmpty
+			$(Get-Content $(Join-Path $PSScriptRoot 'README.md') -Raw -ErrorAction SilentlyContinue) | Should -Not -BeNullOrEmpty
 		}
+	}
 
+	Context "Deployment to Azure" {
+		
 		It "Test-AzResourceGroupDeployment" {
 			# Tests the Deployment using 'Test-AzResourceGroupDeployment'
-			Test-AzResourceGroupDeployment -ResourceGroupName $testResourceGroup -TemplateFile $templatePath -TemplateParameterFile $parameterPath
+			Test-AzResourceGroupDeployment -ResourceGroupName 'zTemplateTest' -TemplateFile $(Join-Path $PSScriptRoot 'azuredeploy.json') -TemplateParameterFile $(Join-Path $PSScriptRoot 'azuredeploy.parameters.json')
 			$? | Should -Be $true
 		}
   	}
