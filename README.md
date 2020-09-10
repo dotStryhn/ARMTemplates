@@ -34,16 +34,16 @@ Tree generated using ```tree /f```
 
 #### azuredeploy.json
 
- The ARM Template itself
+The ARM Template itself
 
 #### azuredeploy.parameters.json
 
- A parameter file with the required parameters, for testing purpuse, values have to be valid values, but not necessarily production specific.
+A parameter file with the required parameters, for testing purpuse, values have to be valid values, but not necessarily production specific.
 
 #### README.md
 
- A readme for the template, preferably with a template example.
+A readme for the template, preferably with a template example.
 
 #### Test-ARMTemplates.Tests.ps1
 
- A pretty simple Pester test.
+A pretty simple Pester test.
