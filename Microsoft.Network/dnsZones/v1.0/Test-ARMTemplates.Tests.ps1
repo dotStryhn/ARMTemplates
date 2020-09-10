@@ -43,7 +43,7 @@ Describe "ARM Template Validation" {
 		}
 
 		It "NotNullorEmpty - README.md" {
-			# Test the content of the README.md
+			# Tests for content in the README.md
 			$readmeContent | Should -Not -BeNullOrEmpty
 		}
 
