@@ -18,7 +18,7 @@ ARM Template for deploying an A Record for a DNS Zone
 ## Required Parameters
 
 #### dnsZone
-The DNS Zone you want to create, ie.: yourdomain.com
+The DNS Zone, in which you want to create the A Record
 
 #### aName
 The Name of the A Record
