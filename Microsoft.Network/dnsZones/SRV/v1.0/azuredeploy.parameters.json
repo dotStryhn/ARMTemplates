@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dnsZone": {
+            "value": "yourdomain.com"
+        },
+        "srvName": {
+            "value": "_sip._tcp"
+        },
+        "srvPriority": {
+            "value": 10
+        },
+        "srvWeight": {
+            "value": 50
+        },
+        "srvPort": {
+            "value": 22
+        },
+        "srvTarget": {
+            "value": "service.someprovider.com"
+        }
+    }
+}
