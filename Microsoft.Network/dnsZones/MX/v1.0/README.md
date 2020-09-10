@@ -14,7 +14,7 @@ ARM Template for deploying a MX Record for a DNS Zone
 ## Required Parameters
 
 #### dnsZone
-The DNS Zone you want to add the MX record to, ie.: yourdomain.com
+The DNS Zone, in which you want to create the MX Record
 
 #### mailExchange
 The address of the mail exchanger, ie: mail.somemailserver.com
