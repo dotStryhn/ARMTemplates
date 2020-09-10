@@ -1,0 +1,59 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dnsZone": {
+            "type": "string",
+            "metadata": {
+                "description": "Ie.: domain.com"
+            }
+        },
+        "mxName": {
+            "defaultValue": "@",
+            "type": "string",
+            "metadata": {
+                "description": "Ie.: mail(.domain.dk), default @"
+            }
+        },
+        "mailExchange": {
+            "type": "string",
+            "metadata": {
+                "description": "Ie.: your-domain.mail.protection.outlook.com"
+            }
+        },
+        "mxPreference": {
+            "defaultValue": 0,
+            "type": "int",
+            "metadata": {
+                "description": "Preference, default 0"
+            }
+        },
+        "mxTTL": {
+            "defaultValue": 3600,
+            "type": "int",
+            "metadata": {
+                "description": "Time to Live, default 3600"
+            }
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/dnsZones/MX",
+            "apiVersion": "2018-05-01",
+            "name": "[concat(parameters('dnsZone'), '/', parameters('mxName'))]",
+            "properties": {
+                "TTL": "[parameters('mxTTL')]",
+                "MXRecords": [
+                    {
+                        "exchange": "[parameters('mailExchange')]",
+                        "preference": "[parameters('mxPreference')]"
+                    }
+                ],
+                "targetResource": {}
+            }
+        }
+    ],
+    "outputs": {}
+}
