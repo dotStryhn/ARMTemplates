@@ -15,7 +15,7 @@ ARM Template for deploying a SRV Record for a DNS Zone
 
 #### dnsZone
 
-The DNS Zone you want to create the SRV record in, ie.: yourdomain.com
+The DNS Zone, in which you want to create the SRV Record
 
 #### srvName
 
