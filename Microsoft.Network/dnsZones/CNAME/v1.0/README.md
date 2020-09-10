@@ -9,7 +9,7 @@
 
 ## Description
 
-ARM Template for deploying an CNAME Record for a DNS Zone
+ARM Template for deploying a CNAME Record for a DNS Zone
 
 ## Required Parameters
 
