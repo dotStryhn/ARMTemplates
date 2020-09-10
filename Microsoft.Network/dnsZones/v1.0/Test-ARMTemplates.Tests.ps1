@@ -19,17 +19,17 @@ Describe "ARM Template Validation" {
 	Context "$armTemplateName $armTemplateVersion - ARM Template and Parameter File" {
 		It "File Exists - ARM Template" {
 			# Tests for the ARM Template
-			Test-Path $templatePath -PathType Leaf | Should -Be $true
+			$templatePath | Should -Exists
 		}
 
 		It "File Exists - Parameter File" {
 			# Tests for the Parameter file
-			Test-Path $parameterPath -PathType Leaf | Should -Be $true
+			$parameterPath | Should -Exists
 		}
 
 		It "File Exists - README File" {
 			# Tests for the README file
-			Test-Path $readmePath -PathType Leaf | Should -Be $true
+			$readmePath | Should -Exists
 		}
 
 		It "Valid JSON - ARM Template" {
