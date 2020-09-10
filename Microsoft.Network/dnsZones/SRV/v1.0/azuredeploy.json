@@ -1,0 +1,71 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dnsZone": {
+            "type": "string",
+            "metadata": {
+                "description": "Ie.: yourdomain.com"
+            }
+        },
+        "srvName": {
+            "type": "string",
+            "metadata": {
+                "description": "Ie.: _service._protocol"
+            }
+        },
+        "srvTTL": {
+            "defaultValue": 3600,
+            "type": "int",
+            "metadata": {
+                "description": "Time to Live, default 3600"
+            }
+        },
+        "srvPriority": {
+            "type": "int",
+            "metadata": {
+                "description": "Priority - Between 0-65535"
+            }
+        },
+        "srvWeight": {
+            "type": "int",
+            "metadata": {
+                "description": "Weight - Between 0-65535"
+            }
+        },
+        "srvPort": {
+            "type": "int",
+            "metadata": {
+                "description": "Port - Between 0-65535"
+            }
+        },
+        "srvTarget": {
+            "type": "string",
+            "metadata": {
+                "description": "Ie.: service.someprovider.com"
+            }
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/dnszones/SRV",
+            "apiVersion": "2018-05-01",
+            "name": "[concat(parameters('dnsZone'), '/', parameters('srvName'))]",
+            "properties": {
+                "TTL": "[parameters('srvTTL')]",
+                "SRVRecords": [
+                    {
+                        "port": "[parameters('srvPort')]",
+                        "priority": "[parameters('srvPriority')]",
+                        "target": "[parameters('srvTarget')]",
+                        "weight": "[parameters('srvWeight')]"
+                    }
+                ],
+                "targetResource": {}
+            }
+        }
+    ],
+    "outputs": {}
+}
