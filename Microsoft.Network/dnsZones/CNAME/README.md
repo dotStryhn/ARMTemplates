@@ -1,0 +1,1 @@
+# Microsoft.Network/dnsZones/CNAME
