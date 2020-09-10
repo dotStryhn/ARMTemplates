@@ -1,0 +1,48 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dnsZone": {
+            "type": "string",
+            "metadata": {
+                "description": "Ie. domain.com"
+            }
+        },
+        "cname": {
+            "type": "string",
+            "metadata": {
+                "description": "CNAME"
+            }
+        },
+        "cnameTTL": {
+            "defaultValue": 3600,
+            "type": "int",
+            "metadata": {
+                "description": "Default 3600"
+            }
+        },
+        "cnameAlias": {
+            "type": "string",
+            "metadata": {
+                "description": "Ie. some.address.com"
+            }
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/dnsZones/CNAME",
+            "apiVersion": "2018-05-01",
+            "name": "[concat(parameters('dnsZone'), '/', parameters('cname'))]",
+            "properties": {
+                "TTL": "[parameters('cnameTTL')]",
+                "CNAMERecord": {
+                    "cname": "[parameters('cnameAlias')]"
+                },
+                "targetResource": {}
+            }
+        }
+    ],
+    "outputs": {}
+}
