@@ -1,3 +1,7 @@
+# Required Elements in different files
+$templateElementsRequired	=	'$schema', 'contentVersion', 'functions', 'output', 'parameters', 'resources', 'variables'
+$parameterElementsRequired	=	'$schema', 'contentVersion', 'parameters'
+
 Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests" {
 
 	Context "ARM Template" {
@@ -7,18 +11,20 @@ Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests"
 			Join-Path $PSScriptRoot 'azuredeploy.json' | Should -Exist
 		}
 
-		It "Valid JSON meets Requirements" {
-			# Tests for valid JSON which contains the required elements
-			$templateElementsRequired =	'$schema',
-										'contentVersion',
-										'functions',
-										'outputs',
-										'parameters',
-										'resources',
-										'variables'
+		It "Valid JSON" {
+			# Tests for valid JSON by using ConvertFrom-Json
+			$(Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue
+			$? | Should -Be $true
+		}
 
-			$templateElements = $(Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue | Get-Member -MemberType NoteProperty | ForEach-Object Name
-			$templateElements | Should -Be $templateElementsRequired
+		$templateElements = $(Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue | Get-Member -MemberType NoteProperty | ForEach-Object Name
+
+		foreach ($requiredTemplateElement in $templateElementsRequired) {
+
+			It "Required Element: $requiredTemplateElement" {
+				# Tests for each the Required Template Elements
+				$templateElements -contains $requiredTemplateElement | Should -Be $true
+			}
 		}
 	}
 
@@ -29,14 +35,20 @@ Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests"
 			$(Join-Path $PSScriptRoot 'azuredeploy.parameters.json') | Should -Exist
 		}
 
-		It "Valid JSON meets Requirements" {
-			# Tests for valid JSON which contains the required elements
-			$parameterElementsRequired =	'$schema',
-											'contentVersion',
-											'parameters'
+		It "Valid JSON" {
+			# Tests for valid JSON by using ConvertFrom-Json
+			$(Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.parameters.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue
+			$? | Should -Be $true
+		}
 
-			$parameterElements = $(Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.parameters.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue | Get-Member -MemberType NoteProperty | ForEach-Object Name
-			$parameterElements | Should -Be $parameterElementsRequired
+		$templateElements = $(Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.parameters.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue | Get-Member -MemberType NoteProperty | ForEach-Object Name
+
+		foreach ($requiredParameterElement in $parameterElementsRequired) {
+
+			It "Required Element: $requiredParameterElement" {
+				# Tests for each the Required Parameter Elements
+				$templateElements -contains $requiredParameterElement | Should -Be $true
+			}
 		}
 	}
 
@@ -47,7 +59,7 @@ Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests"
 			$(Join-Path $PSScriptRoot 'README.md') | Should -Exist
 		}
 
-		It "NotNullorEmpty" {
+		It "Not Empty" {
 			# Tests for content in the README.md
 			$(Get-Content $(Join-Path $PSScriptRoot 'README.md') -Raw -ErrorAction SilentlyContinue) | Should -Not -BeNullOrEmpty
 		}
@@ -60,5 +72,5 @@ Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests"
 			Test-AzResourceGroupDeployment -ResourceGroupName 'zTemplateTest' -TemplateFile $(Join-Path $PSScriptRoot 'azuredeploy.json') -TemplateParameterFile $(Join-Path $PSScriptRoot 'azuredeploy.parameters.json')
 			$? | Should -Be $true
 		}
-  	}
+	}
 }
