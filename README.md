@@ -46,4 +46,4 @@ A readme for the template, preferably with a template example.
 
 #### Test-ARMTemplates.Tests.ps1
 
-A Pester test for the ARM Templates.
+A Pester test for the ARM Templates. Requires Pester 5.
