@@ -1,1 +1,1 @@
-Invoke-Pester -Output 'Diagnostic'
+Invoke-Pester -Output 'Detailed'
