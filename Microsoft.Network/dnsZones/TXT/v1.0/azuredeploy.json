@@ -1,0 +1,52 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dnsZone": {
+            "type": "string",
+            "metadata": {
+                "description": "Ie.: yourdomain.com"
+            }
+        },
+        "txtName": {
+            "type": "string",
+            "metadata": {
+                "description": "Record Name"
+            }
+        },
+        "txtTTL": {
+            "defaultValue": 3600,
+            "type": "int",
+            "metadata": {
+                "description": "Time to Live, default 3600"
+            }
+        },
+        "txtValue": {
+            "type": "string",
+            "metadata": {
+                "description": "TXT String to add"
+            }
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+       {
+            "type": "Microsoft.Network/dnszones/TXT",
+            "apiVersion": "2018-05-01",
+            "name": "[concat(parameters('dnsZone'), '/', parameters('txtName'))]",
+            "properties": {
+                "TTL": "[parameters('txtTTL')]",
+                "TXTRecords": [
+                    {
+                        "value": [
+                            "[parameters('txtValue')]"
+                        ]
+                    }
+                ],
+                "targetResource": {}
+            }
+        }
+    ],
+    "outputs": {}
+}
