@@ -38,15 +38,11 @@ Time to Live for the CNAME, defaults to: 3600 (1 Hour)
         "dnsZone": {
             "value": "yourdomain.com"
         },
-        "aName": {
-            "value": "www"
+        "cname": {
+            "value": "somewhere"
         },
-        "aRecord": {
-            "value": [
-                {
-                    "ipv4Address": "10.0.0.1"
-                }
-            ]
+        "cnameAlias": {
+            "value": "www.somewhere.com"
         }
     }
 }
