@@ -1,0 +1,39 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "storageAccountName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the Storage Account"
+            }
+        },
+        "blobContainer": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the container"
+            }
+        },
+        "containerPublicAccess": {
+            "defaultValue": "None",
+            "allowedValues": [ "None","Blob","Container" ],
+            "type": "string",
+            "metadata": {
+                "description": "Public Access Level, defaults to None"
+            }      
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+            "apiVersion": "2019-06-01",
+            "name": "[concat(parameters('StorageAccountName'), '/default/', parameters('blobContainer'))]",
+            "properties": {
+                "publicAccess": "[parameters('containerPublicAccess')]"
+            }
+        }
+    ],
+    "outputs": {}
+}
