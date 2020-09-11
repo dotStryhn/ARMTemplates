@@ -38,7 +38,7 @@ The ARM Template itself
 
 #### azuredeploy.parameters.json
 
-A parameter file with the required parameters, for testing purpuse, values have to be valid values, but not necessarily production specific.
+A parameter file with the required parameters, for testing purpose, values have to be valid values, but not necessarily production specific.
 
 #### README.md
 
