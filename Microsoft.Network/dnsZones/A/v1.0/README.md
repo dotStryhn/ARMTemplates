@@ -7,13 +7,9 @@
 * [Additional Parameters](#additional-parameters)
 * [Parameter File Example](#parameter-file-example)
 
-
-
 ## Description
 
 ARM Template for deploying an A Record for a DNS Zone
-
-
 
 ## Required Parameters
 
@@ -54,6 +50,3 @@ Time to Live for the A Record, defaults to: 3600 (1 Hour)
     }
 }
 ```
-
-
-

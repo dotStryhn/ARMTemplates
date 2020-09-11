@@ -70,6 +70,3 @@ Time to Live for the SRV Record, defaults to: 3600 (1 Hour)
     }
 }
 ```
-
-
-
