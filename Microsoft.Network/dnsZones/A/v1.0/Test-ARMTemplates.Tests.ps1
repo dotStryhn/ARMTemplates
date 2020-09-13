@@ -17,6 +17,20 @@ Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests"
 			$? | Should -Be $true
 		}
 
+		It "Latest API Version" {
+			$armTemplate = $(Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue
+			$providerNamespace,$resourceTypeName = $armTemplate.resources.type.Split('/',2)
+			try {
+				$latestApiVersion = ((Get-AzResourceProvider -ProviderNamespace $providerNamespace).ResourceTypes | Where-Object ResourceTypeName -EQ $resourceTypeName).ApiVersions[0]
+			}
+			catch {
+				Set-ItResult -Inconclusive -Because 'Missing API Version from Azure'
+			}
+
+			$armTemplate.resources.apiversion | Should -Be $latestApiVersion
+
+		}
+
 		$templateElements = $(Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue | Get-Member -MemberType NoteProperty | ForEach-Object Name
 
 		foreach ($requiredTemplateElement in $templateElementsRequired) {
