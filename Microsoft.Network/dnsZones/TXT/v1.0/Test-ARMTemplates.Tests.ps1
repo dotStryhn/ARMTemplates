@@ -1,6 +1,6 @@
 # Required Elements in different files
-$templateElementsRequired	=	'$schema', 'contentVersion', 'functions', 'output', 'parameters', 'resources', 'variables'
-$parameterElementsRequired	=	'$schema', 'contentVersion', 'parameters'
+$parameterElementsRequired	= '$schema', 'contentVersion', 'parameters'
+$templateElementsRequired	= '$schema', 'contentVersion', 'functions', 'outputs', 'parameters', 'resources', 'variables'
 
 Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests" {
 
@@ -17,28 +17,14 @@ Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests"
 			$? | Should -Be $true
 		}
 
-		It "Latest API Version" {
-			$armTemplate = $(Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue
-			$providerNamespace,$resourceTypeName = $armTemplate.resources.type.Split('/',2)
-			try {
-				$latestApiVersion = ((Get-AzResourceProvider -ProviderNamespace $providerNamespace).ResourceTypes | Where-Object ResourceTypeName -EQ $resourceTypeName).ApiVersions[0]
-			}
-			catch {
-				Set-ItResult -Inconclusive -Because 'Missing API Version from Azure'
-			}
+		$templateTestCases = @()
+		$templateElementsRequired | ForEach-Object { $templateTestCases += @{ requiredElement = $_ } }
 
-			$armTemplate.resources.apiversion | Should -Be $latestApiVersion
-
-		}
-
-		$templateElements = $(Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue | Get-Member -MemberType NoteProperty | ForEach-Object Name
-
-		foreach ($requiredTemplateElement in $templateElementsRequired) {
-
-			It "Required Element: $requiredTemplateElement" {
-				# Tests for each the Required Template Elements
-				$templateElements -contains $requiredTemplateElement | Should -Be $true
-			}
+		It "Required Element: <requiredElement>" -TestCases $templateTestCases {
+			# Tests for Required Elements in the Template
+			param($requiredElement)
+			$templateElements = ($(Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue | Get-Member -MemberType NoteProperty).Name
+			$templateElements -contains $requiredElement | Should -Be $true
 		}
 	}
 
@@ -55,14 +41,14 @@ Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests"
 			$? | Should -Be $true
 		}
 
-		$templateElements = $(Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.parameters.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue | Get-Member -MemberType NoteProperty | ForEach-Object Name
+		$parameterTestCases = @()
+		$parameterElementsRequired | ForEach-Object { $parameterTestCases += @{ requiredElement = $_ } }
 
-		foreach ($requiredParameterElement in $parameterElementsRequired) {
-
-			It "Required Element: $requiredParameterElement" {
-				# Tests for each the Required Parameter Elements
-				$templateElements -contains $requiredParameterElement | Should -Be $true
-			}
+		It "Required Element: <requiredElement>" -TestCases $parameterTestCases {
+			# Tests for Required Elements in the Parameter File
+			param($requiredElement)
+			$parameterElements = ($(Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.parameters.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue | Get-Member -MemberType NoteProperty).Name
+			$parameterElements -contains $requiredElement | Should -Be $true
 		}
 	}
 
