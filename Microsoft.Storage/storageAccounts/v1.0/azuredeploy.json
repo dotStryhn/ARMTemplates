@@ -63,15 +63,31 @@
             "metadata": {
                 "description": "Custom Domain, defaults to ''"
             }
+        },
+        "storageAccountSupportsHttpsTrafficOnly": {
+            "allowedValues": [
+                false,
+                true
+            ],
+            "defaultValue": false,
+            "type": "bool",
+            "metadata": {
+                "description": "Supports HTTPS traffic only, defaults to false"
+            }
         }
     },
     "functions": [],
-    "variables": {},
+    "variables": {
+        "storageAccountNameFormatted": "[tolower(parameters('storageAccountName'))]"
+    },
     "resources": [
         {
-            "name": "[parameters('storageAccountName')]",
+            "name": "[variables('storageAccountNameFormatted')]",
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2019-06-01",
+            "tags": {
+                "displayName": "[parameters('storageAccountName')]"
+            },
             "location": "[parameters('location')]",
             "kind": "[parameters('storageAccountKind')]",
             "sku": {
@@ -79,7 +95,7 @@
                 "tier": "[split(parameters('storageAccountSKUName'), '_')[0]]"
             },  
             "properties": {
-                "supportsHttpsTrafficOnly": false,
+                "supportsHttpsTrafficOnly": true,
                 "accessTier": "[parameters('storageAccountAccesTier')]",
                 "customDomain": {
                     "name": "[parameters('storageAccountCustomDomain')]"
