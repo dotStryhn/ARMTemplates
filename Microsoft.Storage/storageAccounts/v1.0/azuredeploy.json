@@ -74,6 +74,13 @@
             "metadata": {
                 "description": "Supports HTTPS traffic only, defaults to false"
             }
+        },
+        "storageAccountTags": {
+            "defaultValue": {},
+            "type": "object",
+            "metadata": {
+                "description": "Tags to add, defaults to {}"
+            }
         }
     },
     "functions": [],
@@ -85,9 +92,7 @@
             "name": "[variables('storageAccountNameFormatted')]",
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2019-06-01",
-            "tags": {
-                "displayName": "[parameters('storageAccountName')]"
-            },
+            "tags": "[parameters('storageAccountTags')]",
             "location": "[parameters('location')]",
             "kind": "[parameters('storageAccountKind')]",
             "sku": {
