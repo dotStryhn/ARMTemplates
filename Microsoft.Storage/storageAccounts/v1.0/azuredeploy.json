@@ -54,7 +54,7 @@
             "defaultValue": "BlobStorage",
             "type": "string",
             "metadata": {
-                "description": "description"
+                "description": "Storage Account Kind, defaults to BlobStorage"
             }
         },
         "storageAccountCustomDomain": {
