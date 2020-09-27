@@ -2,17 +2,60 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "location": {
+            "defaultValue": "[resourceGroup().location]",
+            "type": "string",
+            "metadata": {
+                "description": "Azure Location, defaults to Resource Group Location"
+            }
+        },
         "storageAccountName": {
             "type": "string",
             "metadata": {
                 "description": "Name of the Storage Account"
             }
         },
-        "location": {
-            "defaultValue": "[resourceGroup().location]",
+        "storageAccountAccesTier": {
+            "allowedValues": [
+                "Cool",
+                "Hot"
+            ],
+            "defaultValue": "Hot",
             "type": "string",
             "metadata": {
-                "description": "Azure Location, defaults to Resource Group Location"
+                "description": "Access Tier, defaults to Hot"
+            }
+        },
+        "storageAccountCustomDomain": {
+            "defaultValue": "",
+            "type": "string",
+            "metadata": {
+                "description": "Custom Domain, defaults to ''"
+            }
+        },
+        "storageAccountCustomDomainUseSubDomainName": {
+            "allowedValues": [
+                false,
+                true
+            ],
+            "defaultValue": true,
+            "type": "bool",
+            "metadata": {
+                "description": "Indicates whether indirect CName validation is enabled, defaults to true"
+            }
+        },
+        "storageAccountKind": {
+            "allowedValues": [
+                "BlobStorage",
+                "BlockBlobStorage",
+                "FileStorage",
+                "Storage",
+                "StorageV2"
+            ],
+            "defaultValue": "BlobStorage",
+            "type": "string",
+            "metadata": {
+                "description": "Storage Account Kind, defaults to BlobStorage"
             }
         },
         "storageAccountSKUName": {
@@ -30,38 +73,6 @@
             "type": "string",
             "metadata": {
                 "description": "SKU Name, defaults to Standard_LRS"
-            }
-        },
-        "storageAccountAccesTier": {
-            "allowedValues": [
-                "Cool",
-                "Hot"
-            ],
-            "defaultValue": "Hot",
-            "type": "string",
-            "metadata": {
-                "description": "Access Tier, defaults to Hot"
-            }
-        },
-        "storageAccountKind": {
-            "allowedValues": [
-                "BlobStorage",
-                "BlockBlobStorage",
-                "FileStorage",
-                "Storage",
-                "StorageV2"
-            ],
-            "defaultValue": "BlobStorage",
-            "type": "string",
-            "metadata": {
-                "description": "Storage Account Kind, defaults to BlobStorage"
-            }
-        },
-        "storageAccountCustomDomain": {
-            "defaultValue": "",
-            "type": "string",
-            "metadata": {
-                "description": "Custom Domain, defaults to ''"
             }
         },
         "storageAccountSupportsHttpsTrafficOnly": {
@@ -103,7 +114,8 @@
                 "supportsHttpsTrafficOnly": "[parameters('storageAccountSupportsHttpsTrafficOnly')]",
                 "accessTier": "[parameters('storageAccountAccesTier')]",
                 "customDomain": {
-                    "name": "[parameters('storageAccountCustomDomain')]"
+                    "name": "[parameters('storageAccountCustomDomain')]",
+                    "useSubDomainName": "[parameters('storageAccountCustomDomainUseSubDomainName')]"
                 }
             }
         }
