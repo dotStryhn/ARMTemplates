@@ -95,7 +95,7 @@
                 "tier": "[split(parameters('storageAccountSKUName'), '_')[0]]"
             },  
             "properties": {
-                "supportsHttpsTrafficOnly": true,
+                "supportsHttpsTrafficOnly": "[parameters('storageAccountSupportsHttpsTrafficOnly')]",
                 "accessTier": "[parameters('storageAccountAccesTier')]",
                 "customDomain": {
                     "name": "[parameters('storageAccountCustomDomain')]"
