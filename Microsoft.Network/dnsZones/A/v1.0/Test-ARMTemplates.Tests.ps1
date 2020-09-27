@@ -13,13 +13,13 @@ Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests"
 
 		It "Valid JSON" {
 			# Tests for valid JSON by using ConvertFrom-Json
-			$(Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue
+			(Get-Content (Join-Path $PSScriptRoot 'azuredeploy.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue
 			$? | Should -Be $true
 		}
 
 		It "Latest API Version" {			$templateTestCases = @()
 			# Tests for the latest API version
-			$armTemplate = $(Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue
+			$armTemplate = (Get-Content (Join-Path $PSScriptRoot 'azuredeploy.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue
 			$templateElementsRequired | ForEach-Object { $templateTestCases += @{ requiredElement = $_ } }
 			$providerNamespace,$resourceTypeName = $armTemplate.resources.type.Split('/',2)	
 			
@@ -39,7 +39,7 @@ Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests"
 		It "Required Element: <requiredElement>" -TestCases $templateTestCases {
 			# Tests for Required Elements in the Template
 			param($requiredElement)
-			$templateElements = ($(Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue | Get-Member -MemberType NoteProperty).Name
+			$templateElements = ((Get-Content (Join-Path $PSScriptRoot 'azuredeploy.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue | Get-Member -MemberType NoteProperty).Name
 			$templateElements -contains $requiredElement | Should -Be $true
 		}
 	}
