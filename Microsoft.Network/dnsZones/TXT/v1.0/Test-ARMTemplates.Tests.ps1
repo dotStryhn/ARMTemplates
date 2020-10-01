@@ -247,8 +247,8 @@ Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests"
 
 			$TestAzRecourceGroupDeploymentParams = @{
 				ResourceGroupName = 'zTemplateTest'
-				TemplateFile = Join-Path @JoinPathTParams
-				TemplateParameterFile = Join-Path @JoinPathPParams
+				TemplateFile = Join-Path @joinPathTParams
+				TemplateParameterFile = Join-Path @joinPathPParams
 			}
 
 			Test-AzResourceGroupDeployment @TestAzRecourceGroupDeploymentParams
