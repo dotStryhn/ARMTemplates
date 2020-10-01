@@ -55,7 +55,7 @@ Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests"
 				}
 			}
 
-		It "Latest API Version" {			$templateTestCases = @()
+		It "Latest API Version" {
 			# Tests for the latest API version
 			$joinPathParams = @{
 				Path		= "$PSScriptRoot"
