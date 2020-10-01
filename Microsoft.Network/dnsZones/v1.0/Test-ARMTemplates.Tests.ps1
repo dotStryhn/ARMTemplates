@@ -47,14 +47,6 @@ Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests"
 			$? | Should -Be $true
 		}
 
-		$templateTestCases = @()
-		$templateElementsRequired | 
-			ForEach-Object { 
-				$templateTestCases += @{
-					requiredElement = $_
-				}
-			}
-
 		It "Latest API Version" {
 			# Tests for the latest API version
 			$joinPathParams = @{
