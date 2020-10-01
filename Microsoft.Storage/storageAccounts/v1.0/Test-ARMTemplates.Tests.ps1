@@ -1,6 +1,15 @@
 # Required Elements in different files
-$parameterElementsRequired	= '$schema', 'contentVersion', 'parameters'
-$templateElementsRequired	= '$schema', 'contentVersion', 'functions', 'outputs', 'parameters', 'resources', 'variables'
+$parameterElementsRequired	=	'$schema',
+								'contentVersion',
+								'parameters'
+
+$templateElementsRequired	=	'$schema',
+								'contentVersion',
+								'functions',
+								'outputs',
+								'parameters',
+								'resources',
+								'variables'
 
 Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests" {
 
@@ -8,23 +17,71 @@ Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests"
 
 		It "File Exists" {
 			# Tests for the ARM Template
-			Join-Path $PSScriptRoot 'azuredeploy.json' | Should -Exist
+			$joinPathParams = @{
+				Path		= "$PSScriptRoot"
+				ChildPath	= 'azuredeploy.json'
+			}
+			
+			Join-Path @joinPathParams | Should -Exist
 		}
 
 		It "Valid JSON" {
 			# Tests for valid JSON by using ConvertFrom-Json
-			(Get-Content (Join-Path $PSScriptRoot 'azuredeploy.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue
+			$joinPathParams = @{
+				Path		= "$PSScriptRoot"
+				ChildPath	= 'azuredeploy.json'
+			}
+			
+			$getContentParams = @{
+				Path		= Join-Path @joinPathParams
+				Raw			= $true
+				ErrorAction = 'SilentlyContinue'
+			}
+
+			$convertFromJsonParams = @{
+				Depth		= 25
+				ErrorAction = 'SilentlyContinue'
+			}
+
+			Get-Content @getContentParams | ConvertFrom-Json @convertFromJsonParams
 			$? | Should -Be $true
 		}
 
+		$templateTestCases = @()
+		$templateElementsRequired | 
+			ForEach-Object { 
+				$templateTestCases += @{
+					requiredElement = $_
+				}
+			}
+
 		It "Latest API Version" {			$templateTestCases = @()
 			# Tests for the latest API version
-			$armTemplate = (Get-Content (Join-Path $PSScriptRoot 'azuredeploy.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue
-			$templateElementsRequired | ForEach-Object { $templateTestCases += @{ requiredElement = $_ } }
+			$joinPathParams = @{
+				Path		= "$PSScriptRoot"
+				ChildPath	= 'azuredeploy.json'
+			}
+
+			$getContentParams = @{
+				Path		= Join-Path @joinPathParams
+				Raw			= $true
+				ErrorAction	= 'SilentlyContinue'
+			}
+
+			$convertFromJsonParams = @{
+				Depth		= 25
+				ErrorAction = 'SilentlyContinue'
+			}
+
+			$armTemplate = Get-Content @getContentParams | ConvertFrom-Json @convertFromJsonParams
 			$providerNamespace,$resourceTypeName = $armTemplate.resources.type.Split('/',2)	
-			
+	
+			$getAzResourceProviderParams = @{
+				ProviderNamespace = $providerNamespace
+			}
+
 			try {	
-				$latestApiVersion = ((Get-AzResourceProvider -ProviderNamespace $providerNamespace).ResourceTypes | Where-Object ResourceTypeName -EQ $resourceTypeName).ApiVersions[0]
+				$latestApiVersion = ((Get-AzResourceProvider @getAzResourceProviderParams).ResourceTypes | Where-Object ResourceTypeName -EQ $resourceTypeName).ApiVersions[0]
 			}	
 			catch {	
 				Set-ItResult -Inconclusive -Because 'Missing API Version from Azure'	
@@ -34,12 +91,40 @@ Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests"
 		}
 
 		$templateTestCases = @()
-		$templateElementsRequired | ForEach-Object { $templateTestCases += @{ requiredElement = $_ } }
+		$templateElementsRequired |
+			ForEach-Object {
+				$templateTestCases += @{
+					requiredElement = $_
+				}
+			}
 
 		It "Required Element: <requiredElement>" -TestCases $templateTestCases {
 			# Tests for Required Elements in the Template
-			param($requiredElement)
-			$templateElements = ((Get-Content (Join-Path $PSScriptRoot 'azuredeploy.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue | Get-Member -MemberType NoteProperty).Name
+			param(
+				$requiredElement
+			)
+
+			$joinPathParams = @{
+				Path		= "$PSScriptRoot"
+				ChildPath	= 'azuredeploy.json'
+			}
+
+			$getContentParams = @{
+				Path		= Join-Path @joinPathParams
+				Raw			= $true
+				ErrorAction = 'SilentlyContinue'
+			}
+
+			$convertFromJsonParams = @{
+				Depth		= 25
+				ErrorAction = 'SilentlyContinue'
+			}
+
+			$getMemberParams = @{
+				MemberType	= 'NoteProperty'
+			}
+
+			$templateElements = (Get-Content @getContentParams | ConvertFrom-Json @convertFromJsonParams | Get-Member @getMemberParams).Name
 			$templateElements -contains $requiredElement | Should -Be $true
 		}
 	}
@@ -48,22 +133,71 @@ Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests"
 
 		It "File Exists" {
 			# Tests for the Parameter file
-			$(Join-Path $PSScriptRoot 'azuredeploy.parameters.json') | Should -Exist
+			$joinPathParams = @{
+				Path		= "$PSScriptRoot"
+				ChildPath	= 'azuredeploy.json'
+			}
+
+			Join-Path @joinPathParams | Should -Exist
 		}
 
 		It "Valid JSON" {
 			# Tests for valid JSON by using ConvertFrom-Json
-			$(Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.parameters.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue
+			$joinPathParams = @{
+				Path		= "$PSScriptRoot"
+				ChildPath	= 'azuredeploy.parameters.json'
+			}
+
+			$getContentParams = @{
+				Path		= Join-Path @joinPathParams
+				Raw			= $true
+				ErrorAction = 'SilentlyContinue'
+			}
+
+			$convertFromJsonParams = @{
+				Depth		= 25
+				ErrorAction = 'SilentlyContinue'
+			}
+
+			Get-Content @getContentParams | ConvertFrom-Json @convertFromJsonParams
 			$? | Should -Be $true
 		}
 
 		$parameterTestCases = @()
-		$parameterElementsRequired | ForEach-Object { $parameterTestCases += @{ requiredElement = $_ } }
+		$parameterElementsRequired |
+			ForEach-Object {
+				$parameterTestCases += @{
+					requiredElement = $_
+				}
+			}
 
 		It "Required Element: <requiredElement>" -TestCases $parameterTestCases {
 			# Tests for Required Elements in the Parameter File
-			param($requiredElement)
-			$parameterElements = ($(Get-Content $(Join-Path $PSScriptRoot 'azuredeploy.parameters.json') -Raw -ErrorAction SilentlyContinue) | ConvertFrom-Json -Depth 10 -ErrorAction SilentlyContinue | Get-Member -MemberType NoteProperty).Name
+			param(
+				$requiredElement
+			)
+
+			$joinPathParams = @{
+				Path		= "$PSScriptRoot"
+				ChildPath	= 'azuredeploy.parameters.json'
+			}
+
+			$getContentParams = @{
+				Path		= Join-Path @joinPathParams
+				Raw			= $true
+				ErrorAction = 'SilentlyContinue'
+			}
+
+			$convertFromJsonParams = @{
+				Depth		= 25
+				ErrorAction = 'SilentlyContinue'
+			}
+			
+			$getMemberParams = @{
+				MemberType	= 'NoteProperty'
+			}
+
+			$parameterElements = (Get-Content @getContentParams | ConvertFrom-Json @convertFromJsonParams | Get-Member @getMemberParams).Name
 			$parameterElements -contains $requiredElement | Should -Be $true
 		}
 	}
@@ -72,12 +206,28 @@ Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests"
 
 		It "File Exists" {
 			# Tests for the README file
-			$(Join-Path $PSScriptRoot 'README.md') | Should -Exist
+			$joinPathParams = @{
+				Path 		= "$PSScriptRoot"
+				ChildPath	= 'README.md'
+			}
+
+			Join-Path @joinPathParams | Should -Exist
 		}
 
 		It "Not Empty" {
 			# Tests for content in the README.md
-			$(Get-Content $(Join-Path $PSScriptRoot 'README.md') -Raw -ErrorAction SilentlyContinue) | Should -Not -BeNullOrEmpty
+			$joinPathParams = @{
+				Path 		= "$PSScriptRoot"
+				ChildPath	= 'README.md'
+			}
+
+			$getContentParams = @{
+				Path		= Join-Path @joinPathParams
+				Raw			= $true
+				ErrorAction = 'SilentlyContinue'
+			}
+
+			Get-Content @getContentParams | Should -Not -BeNullOrEmpty
 		}
 	}
 
@@ -85,7 +235,23 @@ Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests"
 		
 		It "Test-AzResourceGroupDeployment" {
 			# Tests the Deployment using 'Test-AzResourceGroupDeployment'
-			Test-AzResourceGroupDeployment -ResourceGroupName 'zTemplateTest' -TemplateFile $(Join-Path $PSScriptRoot 'azuredeploy.json') -TemplateParameterFile $(Join-Path $PSScriptRoot 'azuredeploy.parameters.json')
+			$joinPathTParams = @{
+				Path		= "$PSScriptRoot" 
+				ChildPath	= 'azuredeploy.json'
+			}
+
+			$joinPathPParams = @{
+				Path		= "$PSScriptRoot" 
+				ChildPath	= 'azuredeploy.parameters.json'
+			}
+
+			$TestAzRecourceGroupDeploymentParams = @{
+				ResourceGroupName = 'zTemplateTest'
+				TemplateFile = Join-Path @JoinPathTParams
+				TemplateParameterFile = Join-Path @JoinPathPParams
+			}
+
+			Test-AzResourceGroupDeployment @TestAzRecourceGroupDeploymentParams
 			$? | Should -Be $true
 		}
 	}
