@@ -73,7 +73,7 @@ Describe "$($PSScriptRoot.split('\')[-2]) $($PSScriptRoot.split('\')[-1]) Tests"
 			}
 
 			try {	
-				$latestApiVersion = ((Get-AzResourceProvider @getAzResourceProviderParams).ResourceTypes | Where-Object ResourceTypeName -EQ $resourceTypeName).ApiVersions[0]
+				$latestApiVersion = (((Get-AzResourceProvider -ProviderNamespace $providerNamespace).ResourceTypes | Where-Object ResourceTypeName -EQ $resourceTypeName).ApiVersions | Where-Object { $_ -NotLike "*-preview" } | Sort-Object -Descending)[0]
 			}	
 			catch {	
 				Set-ItResult -Inconclusive -Because 'Missing API Version from Azure'	
