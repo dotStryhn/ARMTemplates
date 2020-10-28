@@ -1,0 +1,1 @@
+# Microsoft.KeyVault/vaults/v1.0
