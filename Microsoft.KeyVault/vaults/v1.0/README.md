@@ -79,7 +79,7 @@ Property specifying whether protection against purge is enabled for this vault.
 }
 ```
 
-## Paramter File Example with Access Policies
+## Parameter File Example with Access Policies
 
 ```json
 {
