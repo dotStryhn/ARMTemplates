@@ -64,7 +64,6 @@ The vault's create mode to indicate whether the vault need to be recovered or no
 
 Property specifying whether protection against purge is enabled for this vault.
 
-
 ## Parameter File Example
 
 ```json

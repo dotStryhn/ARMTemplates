@@ -14,12 +14,15 @@ ARM Template for deploying a TXT Record for a DNS Zone
 ## Required Parameters
 
 #### dnsZone
+
 The DNS Zone, in which you want to create the TXT Record
 
 #### txtName
+
 Name of the TXT Record, ie.: @
 
 #### txtValue
+
 The content of the TXT Record
 
 ## Additional Parameters

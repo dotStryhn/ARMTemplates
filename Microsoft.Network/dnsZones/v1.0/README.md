@@ -13,6 +13,7 @@ ARM Template for deploying a Public DNS Zone
 ## Required Parameters
 
 #### dnsZone
+
 The DNS Zone you want to create, ie.: yourdomain.com
 
 ## Parameter File Example

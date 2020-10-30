@@ -14,17 +14,21 @@ ARM Template for deploying an A Record for a DNS Zone
 ## Required Parameters
 
 #### dnsZone
+
 The DNS Zone, in which you want to create the A Record
 
 #### aName
+
 The Name of the A Record
 
 #### aRecords
+
 Takes an array of IPv4 Addresses
 
 ## Additional Parameters
 
 #### aTTL
+
 Time to Live for the A Record, defaults to: 3600 (1 Hour)
 
 ## Parameter File Example
