@@ -145,10 +145,5 @@
             }
         }
     ],
-    "outputs": {
-        "vaultUri": {
-        "type": "string",
-        "value": "[reference(resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))).vaultUri]"
-        }
-    }
+    "outputs": {}
 }
